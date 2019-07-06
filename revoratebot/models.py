@@ -5,23 +5,16 @@ class Company(models.Model):
     name = models.CharField(max_length=100)
 
 
-class Dispatcher(models.Model):
+class User(models.Model):
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20)
     telegram_user_id = models.IntegerField(blank=True, null=True)
     token = models.CharField(max_length=100)
     confirmed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-
-
-class Driver(models.Model):
-    name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=20)
-    telegram_user_id = models.IntegerField(blank=True, null=True)
-    token = models.CharField(max_length=100)
-    confirmed = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    is_dispatcher = models.BooleanField(blank=True, null=True)
+    is_driver = models.BooleanField(blank=True, null=True)
+    language = models.CharField(max_length=10)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
 
