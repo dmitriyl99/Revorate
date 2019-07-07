@@ -10,6 +10,10 @@ class Department(models.Model):
     code_name = models.CharField(max_length=50, blank=True, null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
+    class DefaultNames:
+        DRIVERS = 'drivers'
+        DISPATCHERS = 'dispatchers'
+
 
 class User(models.Model):
     name = models.CharField(max_length=100)
