@@ -19,7 +19,7 @@ class User(models.Model):
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20)
     telegram_user_id = models.IntegerField(blank=True, null=True)
-    token = models.CharField(max_length=100)
+    token = models.CharField(max_length=100, blank=True, null=True)
     confirmed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     language = models.CharField(max_length=10, blank=True, null=True)
