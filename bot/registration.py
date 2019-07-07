@@ -19,7 +19,7 @@ def start_handler(message: Message):
 
     current_user = users.get_user_by_telegram_id(user_id)
     if current_user:
-        main_menu_keyboard = keyboards.get_keyboard('main_menu', current_user.language)
+        main_menu_keyboard = keyboards.get_main_keyboard_by_user_role(current_user)
         answer_text = strings.get_string('registration.user_exists',
                                          current_user.language).format(name=current_user.name)
         telegram_bot.send_message(chat_id, answer_text, reply_markup=main_menu_keyboard, parse_mode='HTML')
@@ -70,6 +70,7 @@ def language_processor(message: Message, **kwargs):
     def error():
         error_msg = strings.get_string('registration.languages')
         telegram_bot.send_message(chat_id, error_msg)
+        telegram_bot.register_next_step_handler_by_chat_id(chat_id, language_processor, user=user)
 
     if not message.text:
         error()
@@ -84,6 +85,6 @@ def language_processor(message: Message, **kwargs):
         error()
         return
     users.set_user_language(user, language)
-    main_menu_keyboard = keyboards.get_keyboard('main_menu', user.language)
+    main_menu_keyboard = keyboards.get_main_keyboard_by_user_role(user)
     welcome_text = strings.get_string('registration.welcome', user.language)
     telegram_bot.send_message(chat_id, welcome_text, reply_markup=main_menu_keyboard, parse_mode='HTML')
