@@ -18,7 +18,7 @@ class User(models.Model):
     token = models.CharField(max_length=100)
     confirmed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    language = models.CharField(max_length=10)
+    language = models.CharField(max_length=10, blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, blank=True, null=True)
     is_manager = models.BooleanField(default=False)
 
