@@ -20,8 +20,9 @@ def start_handler(message: Message):
     current_user = users.get_user_by_telegram_id(user_id)
     if current_user:
         main_menu_keyboard = keyboards.get_keyboard('main_menu', current_user.language)
-        answer_text = strings.get_string('registration.user_exists', current_user.language)
-        telegram_bot.send_message(chat_id, answer_text, reply_markup=main_menu_keyboard)
+        answer_text = strings.get_string('registration.user_exists',
+                                         current_user.language).format(name=current_user.name)
+        telegram_bot.send_message(chat_id, answer_text, reply_markup=main_menu_keyboard, parse_mode='HTML')
         return
     msg_text = message.text
     message_text_parts = msg_text.split(' ')
@@ -36,10 +37,18 @@ def start_handler(message: Message):
         return
     confirmation_result = users.confirm_user(user, user_id)
     if confirmation_result is True:
-        if user.is_driver:
-            welcome_message = strings.get_string('registration.welcome_driver').format(name=user.name)
+        if user.department:
+            if user.department.code_name == 'drivers':
+                welcome_message = strings.get_string('registration.welcome_driver').format(name=user.name)
+            elif user.department.code_name == 'dispatchers':
+                welcome_message = strings.get_string('registration.welcome_dispatcher').format(name=user.name)
+            else:
+                welcome_message = strings.get_string('registration.welcome_common').format(name=user.name)
         else:
-            welcome_message = strings.get_string('registration.welcome_dispatcher').format(name=user.name)
+            if user.is_manager:
+                welcome_message = strings.get_string('registration.welcome_manager').format(name=user.name)
+            else:
+                welcome_message = strings.get_string('registration.welcome_common').format(name=user.name)
         telegram_bot.send_message(chat_id, welcome_message, parse_mode='HTML')
         language_message = strings.get_string('registration.languages')
         language_keyboard = keyboards.get_keyboard('registration.languages')
@@ -56,7 +65,7 @@ def language_processor(message: Message, **kwargs):
     chat_id = message.chat.id
     language_ru = strings.get_string('languages.ru')
     language_en = strings.get_string('languages.en')
-    language_uz = strings.get_string('languages.ru')
+    language_uz = strings.get_string('languages.uz')
 
     def error():
         error_msg = strings.get_string('registration.languages')
