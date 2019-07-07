@@ -2,7 +2,13 @@ from django.db import models
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=200)
+
+
+class Department(models.Model):
+    name = models.CharField(max_length=150)
+    code_name = models.CharField(max_length=50, blank=True, null=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
 
 class User(models.Model):
@@ -12,10 +18,9 @@ class User(models.Model):
     token = models.CharField(max_length=100)
     confirmed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    is_dispatcher = models.BooleanField(blank=True, null=True)
-    is_driver = models.BooleanField(blank=True, null=True)
     language = models.CharField(max_length=10)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, blank=True, null=True)
+    is_manager = models.BooleanField(default=False)
 
 
 class Rating(models.Model):
