@@ -38,11 +38,11 @@ def get_main_keyboard_by_user_role(user: User):
     drivers_code = Department.DefaultNames.DRIVERS
     dispatchers_code = Department.DefaultNames.DISPATCHERS
     if user.department:
-        if user.department == drivers_code:
+        if user.department.code_name == drivers_code:
             keyboard = _create_keyboard(row_width=2)
             keyboard.add(get_string('menu.put_estimate', language),
                          get_string('menu.sos', language))
-        elif user.department == dispatchers_code:
+        elif user.department.code_name == dispatchers_code:
             keyboard = _create_keyboard(row_width=1)
             keyboard.add(get_string('menu.put_estimate', language))
         else:
