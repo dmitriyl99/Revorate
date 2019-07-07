@@ -40,7 +40,7 @@ def confirm_user(user: User, telegram_user_id):
         return False
     # If user not in drivers or dispatchers, or user isn't a manager prevent access
     if user.department:
-        if user.department.code_name != Department.DefaultNames.DRIVERS or \
+        if user.department.code_name != Department.DefaultNames.DRIVERS and \
                 user.department.code_name != Department.DefaultNames.DISPATCHERS:
             return False
     else:
