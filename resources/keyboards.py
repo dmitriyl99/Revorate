@@ -54,3 +54,14 @@ def get_main_keyboard_by_user_role(user: User):
         keyboard.add(get_string('menu.ratings', language))
     keyboard.add(get_string('menu.settings', language))
     return keyboard
+
+
+def keyboard_by_user_language(user: User) -> ReplyKeyboardMarkup:
+    keyboard = _create_keyboard(row_width=1)
+    if user.language != 'ru':
+        keyboard.add(get_string('languages.ru'))
+    if user.language != 'uz':
+        keyboard.add(get_string('languages.uz'))
+    if user.language != 'en':
+        keyboard.add(get_string('languages.en'))
+    return keyboard
