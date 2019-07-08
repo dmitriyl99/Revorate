@@ -2,7 +2,7 @@
 Main logic for Telegram Bot
 """
 from telebot import TeleBot
-from Revorate import settings
+from Revorate import settings as app_settings
 
 
-telegram_bot = TeleBot(settings.API_TOKEN)
+telegram_bot = TeleBot(app_settings.API_TOKEN)
