@@ -29,6 +29,10 @@ def get_keyboard(key, language='ru'):
                               get_string('languages.en', language),
                               get_string('languages.uz', language))
         return language_keyboard
+    if key == 'settings':
+        settings_keyboard = _create_keyboard(row_width=1)
+        settings_keyboard.add(get_string('settings.languages', language))
+        return settings_keyboard
     else:
         return _default_value
 
