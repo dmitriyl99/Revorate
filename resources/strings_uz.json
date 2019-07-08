@@ -13,5 +13,9 @@
     "menu.put_estimate": "Поставить оценку ⭐️",
     "menu.sos": "SOS \uD83C\uDD98",
     "menu.ratings": "Рейтинги ⭐",
-    "menu.settings": "Настройки ⚙️"
+    "menu.settings": "Настройки ⚙️",
+    "settings.menu": "Меню настроек ⚙",
+    "settings.languages": "Изменить язык \uD83C\uDF10",
+    "settings.select_language": "Выберите язык",
+    "settings.languages_success": "Язык изменён ✅"
 }
