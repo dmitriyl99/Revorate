@@ -1,6 +1,6 @@
 from telebot.types import Message
 from core.managers import users
-from revoratebot.models import User
+from revoratebot.models import User, Department, SosSignal
 from resources import strings, keyboards
 from typing import Optional
 from . import telegram_bot
@@ -39,6 +39,17 @@ class Access:
         if user.is_manager:
             return False
         return Access._private(message) and strings.get_string('menu.put_estimate', user.language) in message.text
+
+    @staticmethod
+    def sos(message: Message):
+        if not message.location:
+            return False
+        user = Access._auth(message)
+        if not user:
+            return False
+        if user.department.code_name != Department.DefaultNames.DRIVERS:
+            return False
+        return Access._private(message)
 
 
 class Navigation:
