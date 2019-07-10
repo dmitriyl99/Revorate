@@ -62,7 +62,7 @@ class Navigation:
         else:
             menu_message = strings.get_string('menu.common', user.language)
         menu_keyboard = keyboards.get_main_keyboard_by_user_role(user)
-        telegram_bot.send_message(chat_id, menu_message, reply_markup=menu_keyboard)
+        telegram_bot.send_message(chat_id, menu_message, reply_markup=menu_keyboard, parse_mode='HTML')
 
     @staticmethod
     def to_settings(user, chat_id):
