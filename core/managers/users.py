@@ -75,3 +75,11 @@ def find_user_by_name(user_name: str) -> Optional[User]:
         return User.objects.filter(name=user_name)[0]
     except IndexError:
         return None
+
+
+def get_registered_managers() -> List[User]:
+    """
+    Get registration confirmed managers
+    :return: list of managers
+    """
+    return User.objects.filter(is_manager=True, confirmed=True)
