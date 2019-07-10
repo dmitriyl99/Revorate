@@ -1,9 +1,11 @@
 from telebot.types import Message
+from telebot.apihelper import ApiException
 from core.managers import users
 from revoratebot.models import User, Department, SosSignal
 from resources import strings, keyboards
 from typing import Optional
 from . import telegram_bot
+import time
 
 
 class Access:
@@ -69,3 +71,18 @@ class Navigation:
         settings_keyboard = keyboards.get_keyboard('settings', user.language)
         telegram_bot.send_message(chat_id, settings_message, reply_markup=settings_keyboard)
         telegram_bot.register_next_step_handler_by_chat_id(chat_id, settings_processor, user=user)
+
+
+class Helpers:
+    @staticmethod
+    def send_sos_signal_to_managers(sos_signal: SosSignal, sender: User):
+        managers = users.get_registered_managers()
+        for manager in managers:
+            if len(managers) > 10:
+                time.sleep(0.1)
+            sos_message = strings.string_from_sos_signal(sos_signal, sender, manager.language)
+            try:
+                telegram_bot.send_message(manager.id, sos_message, parse_mode='HTML')
+                telegram_bot.send_location(manager.id, sos_signal.location_lat, sos_signal.location_lon)
+            except ApiException:
+                pass
