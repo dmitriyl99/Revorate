@@ -37,18 +37,10 @@ def start_handler(message: Message):
         return
     confirmation_result = users.confirm_user(user, user_id)
     if confirmation_result is True:
-        if user.department:
-            if user.department.code_name == 'drivers':
-                welcome_message = strings.get_string('registration.welcome_driver').format(name=user.name)
-            elif user.department.code_name == 'dispatchers':
-                welcome_message = strings.get_string('registration.welcome_dispatcher').format(name=user.name)
-            else:
-                welcome_message = strings.get_string('registration.welcome_common').format(name=user.name)
+        if user.is_manager:
+            welcome_message = strings.get_string('registration.welcome_manager').format(name=user.name)
         else:
-            if user.is_manager:
-                welcome_message = strings.get_string('registration.welcome_manager').format(name=user.name)
-            else:
-                welcome_message = strings.get_string('registration.welcome_common').format(name=user.name)
+            welcome_message = strings.get_string('registration.welcome_common').format(name=user.name)
         telegram_bot.send_message(chat_id, welcome_message, parse_mode='HTML')
         language_message = strings.get_string('registration.languages')
         language_keyboard = keyboards.get_keyboard('registration.languages')

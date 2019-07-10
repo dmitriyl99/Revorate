@@ -1,8 +1,6 @@
 {
     "registration.not_allowed": "Извините, но я не могу распознать вас.",
     "registration.user_exists": "Здравствуйте, <b>{name}</b>, вы уже зарегистрированы! Выберите пункт меню",
-    "registration.welcome_driver": "Здравствуйте, водитель <b>{name}</b>! Ваша регистрация подтверждена ✅",
-    "registration.welcome_dispatcher": "Здравствуйте, диспетчер <b>{name}</b>! Ваша регистрация подтверждена ✅",
     "registration.welcome_manager": "Здравствуйте, менеджер <b>{name}</b>! Ваша регистрация подтверждена ✅",
     "registration.welcome_common": "Здравствуйте, <b>{name}</b>! Ваша регистрация подтверждена ✅",
     "registration.languages": "Выберите язык бота для начала работы",
