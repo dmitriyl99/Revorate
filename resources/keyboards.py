@@ -3,16 +3,6 @@ from .strings import get_string
 from revoratebot.models import User, Department
 from typing import List
 
-_keyboards_ru = {
-    'remove': ReplyKeyboardRemove()
-}
-_keyboards_uz = {
-    'remove': ReplyKeyboardRemove()
-}
-_keyboards_en = {
-    'remove': ReplyKeyboardRemove()
-}
-
 _default_value = ReplyKeyboardMarkup(resize_keyboard=True)
 _default_value.add('no_keyboard')
 
@@ -30,11 +20,19 @@ def get_keyboard(key, language='ru'):
                               get_string('languages.en', language),
                               get_string('languages.uz', language))
         return language_keyboard
-    if key == 'settings':
+    elif key == 'settings':
         settings_keyboard = _create_keyboard(row_width=1)
         settings_keyboard.add(get_string('settings.languages', language))
         settings_keyboard.add(get_string('go_back', language))
         return settings_keyboard
+    elif key == 'estimates.estimates':
+        estimates_keyboard = _create_keyboard(row_width=1)
+        estimates_keyboard.add(get_string('estimates.value_5', language),
+                               get_string('estimates.value_4', language),
+                               get_string('estimates.value_3', language),
+                               get_string('estimates.value_2', language),
+                               get_string('estimates.value_1', language))
+        return estimates_keyboard
     else:
         return _default_value
 
