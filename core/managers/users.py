@@ -38,14 +38,6 @@ def confirm_user(user: User, telegram_user_id):
     # If user registration already confirmed prevent access
     if user.confirmed:
         return False
-    # If user not in drivers or dispatchers, or user isn't a manager prevent access
-    if user.department:
-        if user.department.code_name != Department.DefaultNames.DRIVERS and \
-                user.department.code_name != Department.DefaultNames.DISPATCHERS:
-            return False
-    else:
-        if not user.is_manager:
-            return False
     # Confirm registration
     user.confirmed = True
     user.telegram_user_id = telegram_user_id

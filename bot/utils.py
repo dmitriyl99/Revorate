@@ -13,13 +13,6 @@ class Access:
         user = users.get_user_by_telegram_id(user_id)
         if not user:
             return None
-        if user.department:
-            if user.department.code_name != Department.DefaultNames.DISPATCHERS \
-                    and user.department.code_name != Department.DefaultNames.DRIVERS:
-                return None
-        else:
-            if not user.is_manager:
-                return None
         return user
 
     @staticmethod
