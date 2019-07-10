@@ -27,3 +27,14 @@ class Access:
         if not user:
             return False
         return Access._private(message) and strings.get_string('menu.settings', user.language) in message.text
+
+    @staticmethod
+    def estimates(message: Message):
+        if not message.text:
+            return False
+        user = Access._auth(message)
+        if not user:
+            return False
+        if user.is_manager:
+            return False
+        return Access._private(message) and strings.get_string('menu.put_estimate', user.language) in message.text
