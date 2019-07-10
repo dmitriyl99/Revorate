@@ -1,6 +1,7 @@
 from telebot.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 from .strings import get_string
 from revoratebot.models import User, Department
+from typing import List
 
 _keyboards_ru = {
     'remove': ReplyKeyboardRemove()
@@ -32,6 +33,7 @@ def get_keyboard(key, language='ru'):
     if key == 'settings':
         settings_keyboard = _create_keyboard(row_width=1)
         settings_keyboard.add(get_string('settings.languages', language))
+        settings_keyboard.add(get_string('go_back', language))
         return settings_keyboard
     else:
         return _default_value
@@ -63,4 +65,21 @@ def keyboard_by_user_language(user: User) -> ReplyKeyboardMarkup:
         keyboard.add(get_string('languages.uz'))
     if user.language != 'en':
         keyboard.add(get_string('languages.en'))
+    keyboard.add(get_string('go_back', user.language))
+    return keyboard
+
+
+def keyboard_from_departments_list(departments: List[Department], language) -> ReplyKeyboardMarkup:
+    keyboard = _create_keyboard(row_width=3)
+    departments_name = [d.name for d in departments]
+    keyboard.add(*departments_name)
+    keyboard.add(get_string('go_back', language))
+    return keyboard
+
+
+def keyboard_from_users_list(users: List[User], language) -> ReplyKeyboardMarkup:
+    keyboard = _create_keyboard(row_width=2)
+    users_names = [u.name for u in users]
+    keyboard.add(*users_names)
+    keyboard.add(get_string('go_back', language))
     return keyboard
