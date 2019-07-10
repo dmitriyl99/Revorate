@@ -1,6 +1,6 @@
 import os
 import json
-from revoratebot.models import Rating
+from revoratebot.models import Rating, SosSignal
 
 _basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -39,3 +39,14 @@ def estimate_value_from_string(string, language):
         return Rating.Values.VERY_HIGH
     else:
         return None
+
+
+def string_from_sos_signal(sos_signal: SosSignal, sender, language):
+    datetime = sos_signal.created_at.strftime('%d.%m.%Y %H:%M')
+    sos_message_content = ""
+    sos_message_content += get_string('sos.new_signal', language)
+    sos_message_content += '\n'
+    sos_message_content += get_string('sos.sender', language).format(name=sender.name)
+    sos_message_content += '\n'
+    sos_message_content += get_string('sos.sent_at', language).format(date=datetime)
+    return sos_message_content
