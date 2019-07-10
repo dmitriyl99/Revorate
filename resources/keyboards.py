@@ -44,7 +44,8 @@ def get_main_keyboard_by_user_role(user: User):
         keyboard = _create_keyboard(row_width=1)
         keyboard.add(get_string('menu.put_estimate', language))
         if user.department.code_name == drivers_code:
-            keyboard.add(get_string('menu.sos', language))
+            sos_button = KeyboardButton(get_string('menu.sos', language), request_location=True)
+            keyboard.add(sos_button)
     else:
         if not user.is_manager:
             return None
