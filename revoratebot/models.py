@@ -33,3 +33,10 @@ class Rating(models.Model):
     value = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     comment = models.CharField(max_length=500)
+
+    class Values:
+        VERY_HIGH = 5
+        HIGH = 4
+        MEDIUM = 3
+        LOW = 2
+        VERY_LOW = 1
