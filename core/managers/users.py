@@ -1,5 +1,5 @@
 from revoratebot.models import User, Department
-from typing import Optional
+from typing import Optional, List
 
 
 def get_user_by_token(token: str) -> Optional[User]:
@@ -54,3 +54,24 @@ def set_user_language(user: User, language):
     """
     user.language = language
     user.save()
+
+
+def find_users_by_department_name(department_name: str) -> List[User]:
+    """
+    Find users by department name
+    :param department_name: department name
+    :return: list of users
+    """
+    return User.objects.filter(department__name=department_name)
+
+
+def find_user_by_name(user_name: str) -> Optional[User]:
+    """
+    Find user by his name
+    :param user_name: User name
+    :return: User or None
+    """
+    try:
+        return User.objects.filter(name=user_name)[0]
+    except IndexError:
+        return None
