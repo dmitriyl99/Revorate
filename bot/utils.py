@@ -1,6 +1,6 @@
 from telebot.types import Message
 from core.managers import users
-from revoratebot.models import User, Department
+from revoratebot.models import User
 from resources import strings
 from typing import Optional
 
