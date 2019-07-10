@@ -1,8 +1,9 @@
 from telebot.types import Message
 from core.managers import users
 from revoratebot.models import User
-from resources import strings
+from resources import strings, keyboards
 from typing import Optional
+from . import telegram_bot
 
 
 class Access:
@@ -38,3 +39,22 @@ class Access:
         if user.is_manager:
             return False
         return Access._private(message) and strings.get_string('menu.put_estimate', user.language) in message.text
+
+
+class Navigation:
+    @staticmethod
+    def to_main_menu(user, chat_id, message_text=None):
+        if message_text:
+            menu_message = message_text
+        else:
+            menu_message = strings.get_string('menu.common', user.language)
+        menu_keyboard = keyboards.get_main_keyboard_by_user_role(user)
+        telegram_bot.send_message(chat_id, menu_message, reply_markup=menu_keyboard)
+
+    @staticmethod
+    def to_settings(user, chat_id):
+        from .settings import settings_processor
+        settings_message = strings.get_string('settings.menu', user.language)
+        settings_keyboard = keyboards.get_keyboard('settings', user.language)
+        telegram_bot.send_message(chat_id, settings_message, reply_markup=settings_keyboard)
+        telegram_bot.register_next_step_handler_by_chat_id(chat_id, settings_processor, user=user)

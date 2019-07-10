@@ -1,17 +1,8 @@
 from . import telegram_bot
-from .utils import Access
+from .utils import Access, Navigation
 from core.managers import users, ratings
 from resources import strings, keyboards
 from telebot.types import Message
-
-
-def _to_main_menu(user, chat_id, message_text=None):
-    if message_text:
-        menu_message = message_text
-    else:
-        menu_message = strings.get_string('menu.common', user.language)
-    menu_keyboard = keyboards.get_main_keyboard_by_user_role(user)
-    telegram_bot.send_message(chat_id, menu_message, menu_keyboard)
 
 
 def _to_departments_select(user, chat_id):
@@ -63,7 +54,7 @@ def departments_processor(message: Message, **kwargs):
         error()
         return
     if strings.get_string('go_back', user.language) in message.text:
-        _to_main_menu(user, chat_id)
+        Navigation.to_main_menu(user, chat_id)
         return
     _to_users(user, chat_id, message.text, error_callback=error)
 
@@ -141,4 +132,4 @@ def comments_processor(message: Message, **kwargs):
     comment = message.text
     ratings.create_rating(user, selected_user, estimate_value, comment)
     success_message = strings.get_string('estimates.success', user.language)
-    _to_main_menu(user, chat_id, message_text=success_message)
+    Navigation.to_main_menu(user, chat_id, message_text=success_message)
