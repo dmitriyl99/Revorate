@@ -8,6 +8,7 @@
     "languages.ru": "Русский \uD83C\uDDF7\uD83C\uDDFA",
     "languages.en": "English \uD83C\uDDFA\uD83C\uDDF8",
     "languages.uz": "O`zbek \uD83C\uDDFA\uD83C\uDDFF",
+    "menu.common": "Главное меню",
     "menu.put_estimate": "Поставить оценку ⭐️",
     "menu.sos": "SOS \uD83C\uDD98",
     "menu.ratings": "Рейтинги ⭐",
@@ -15,5 +16,13 @@
     "settings.menu": "Меню настроек ⚙",
     "settings.languages": "Изменить язык \uD83C\uDF10",
     "settings.select_language": "Выберите язык",
-    "settings.languages_success": "Язык изменён ✅"
+    "settings.languages_success": "Язык изменён ✅",
+    "estimates.select_department": "Выберите отдел",
+    "estimates.value_1": "Очень низкий рейтинг ⭐",
+    "estimates.value_2": "Низкий рейтинг ⭐⭐",
+    "estimates.value_3": "Средний рейтинг ⭐⭐⭐",
+    "estimates.value_4": "Высокий рейтинг ⭐⭐⭐⭐",
+    "estimates.value_5": "Очень высокий рейтинг ⭐⭐⭐⭐⭐",
+    "sos.success": "Сигнал SOS отправлен всем менеджерам ✅",
+    "go_back": "⬅️ Назад"
 }
