@@ -27,6 +27,13 @@ class User(models.Model):
     is_manager = models.BooleanField(default=False)
 
 
+class SosSignal(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    location_lat = models.FloatField()
+    location_lon = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class Rating(models.Model):
     from_id = models.IntegerField()
     to_id = models.IntegerField()
