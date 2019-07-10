@@ -131,5 +131,6 @@ def comments_processor(message: Message, **kwargs):
         return
     comment = message.text
     ratings.create_rating(user, selected_user, estimate_value, comment)
-    success_message = strings.get_string('estimates.success', user.language)
+    success_message = strings.get_string('estimates.success', user.language).format(name=selected_user.name,
+                                                                                    department=selected_user.department.name)
     Navigation.to_main_menu(user, chat_id, message_text=success_message)
