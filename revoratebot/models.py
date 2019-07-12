@@ -17,6 +17,10 @@ class Department(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     comment_templates = models.ManyToManyField(CommentTemplate)
 
+    @property
+    def users_count(self):
+        return self.user_set.count()
+
     class DefaultNames:
         DRIVERS = 'drivers'
         DISPATCHERS = 'dispatchers'
