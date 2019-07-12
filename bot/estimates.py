@@ -104,7 +104,7 @@ def estimates_processor(message: Message, **kwargs):
         return
     comment_message = strings.get_string('estimates.comment', user.language)
     if value < 4:
-        comment_templates = user.department.comment_templates.all()
+        comment_templates = selected_user.department.comment_templates.all()
         if len(comment_templates) > 0:
             comment_message = strings.get_string('estimates.comment_with_templates', user.language)
             comments_keyboard = keyboards.keyboard_from_comments_templates(comment_templates, user.language)
