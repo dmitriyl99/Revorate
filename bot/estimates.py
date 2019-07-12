@@ -103,8 +103,16 @@ def estimates_processor(message: Message, **kwargs):
         error()
         return
     comment_message = strings.get_string('estimates.comment', user.language)
-    comments_keyboard = keyboards.get_keyboard('estimates.comments', user.langauge)
-    telegram_bot.send_message(chat_id, comment_message, reply_markup=comments_keyboard)
+    if value < 4:
+        comment_templates = user.department.comment_templates.all()
+        if len(comment_templates) > 0:
+            comment_message = strings.get_string('estimates.comment_with_templates', user.language)
+            comments_keyboard = keyboards.keyboard_from_comments_templates(comment_templates, user.language)
+            telegram_bot.send_message(chat_id, comment_message, reply_markup=comments_keyboard)
+        else:
+            telegram_bot.send_message(chat_id, comment_message)
+    else:
+        telegram_bot.send_message(chat_id, comment_message)
     telegram_bot.register_next_step_handler_by_chat_id(chat_id, comments_processor, user=user,
                                                        selected_user=selected_user,
                                                        estimate=value)
