@@ -20,7 +20,7 @@
 </head>
 <body>
     <div id="page-loader" class="show"></div>
-    <div id="page-container" class="sidebar-o side-scroll {% if request.resolver_match.url_name == 'admin_index' %}page-header-glass page-header-inverse{% else %}page-header-modern{% endif %} main-content-boxed">
+    <div id="page-container" class="sidebar-o side-scroll {% if request.resolver_match.url_name == 'admin_home' %}page-header-glass page-header-inverse{% else %}page-header-modern{% endif %} main-content-boxed">
         <nav id="sidebar">
             <div id="sidebar-scroll">
                 <div id="sidebar-content">
@@ -141,9 +141,9 @@
         </header>
         <!-- Main Container -->
         <main id="main-container">
-            {% if request.resolver_match.url_name == 'admin_index' %}
+            {% if request.resolver_match.url_name == 'admin_home' %}
                 <!-- Page Content -->
-                <div class="bg-image" style="background-image: {% static 'assets/img/photo2@2x.jpg' %}">
+                <div class="bg-image" style="background-image: url('{% static 'assets/img/photo2@2x.jpg' %}')">
                     <div class="hero bg-primary-dark-op">
                         <div class="hero-inner">
                             <div class="content content-full text-center">
