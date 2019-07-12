@@ -1,6 +1,12 @@
 from django.db import models
 
 
+class CommentTemplate(models.Model):
+    text_ru = models.CharField(max_length=200)
+    text_uz = models.CharField(max_length=200)
+    text_en = models.CharField(max_length=200)
+
+
 class Company(models.Model):
     name = models.CharField(max_length=200)
 
@@ -9,6 +15,7 @@ class Department(models.Model):
     name = models.CharField(max_length=150)
     code_name = models.CharField(max_length=50, blank=True, null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    comment_templates = models.ManyToManyField(CommentTemplate)
 
     class DefaultNames:
         DRIVERS = 'drivers'
