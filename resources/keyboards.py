@@ -1,6 +1,6 @@
 from telebot.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 from .strings import get_string
-from revoratebot.models import User, Department
+from revoratebot.models import User, Department, CommentTemplate
 from typing import List
 
 _default_value = ReplyKeyboardMarkup(resize_keyboard=True)
@@ -79,5 +79,18 @@ def keyboard_from_users_list(users: List[User], language) -> ReplyKeyboardMarkup
     keyboard = _create_keyboard(row_width=2)
     users_names = [u.name for u in users]
     keyboard.add(*users_names)
+    keyboard.add(get_string('go_back', language))
+    return keyboard
+
+
+def keyboard_from_comments_templates(templates: List[CommentTemplate], language) -> ReplyKeyboardMarkup:
+    keyboard = _create_keyboard(row_width=1)
+    if language == 'en':
+        templates_texts = [t.text_en for t in templates]
+    elif language == 'uz':
+        templates_texts = [t.text_uz for t in templates]
+    else:
+        templates_texts = [t.text_ru for t in templates]
+    keyboard.add(*templates_texts)
     keyboard.add(get_string('go_back', language))
     return keyboard
