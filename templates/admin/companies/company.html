@@ -28,9 +28,9 @@
             </div>
         </div>
         <div class="block-content">
-            {% if page_obj %}
+            {% if department_list %}
                 <ul class="list-group list-group-flush">
-                    {% for department in page_obj %}
+                    {% for department in department_list %}
                         <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             {{ department.name }}
                             <span class="badge badge-primary badge-pill">{{ department.users_count }}</span>

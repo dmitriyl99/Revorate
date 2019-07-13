@@ -7,14 +7,15 @@ from django.contrib import messages
 from revoratebot.models import Company, Department, User
 
 
-class CompaniesListView(ListView):
-    template_name = 'admin/companies_list.html'
+
+class CompaniesListView(ListView, LoginRequiredMixin):
+    template_name = 'admin/companies/companies_list.html'
     context_object_name = 'companies'
     model = Company
 
 
-class CompanyView(ListView, SingleObjectMixin):
-    template_name = 'admin/company.html'
+class CompanyView(ListView, SingleObjectMixin, LoginRequiredMixin):
+    template_name = 'admin/companies/company.html'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=Company.objects.all())
