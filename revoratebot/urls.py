@@ -5,5 +5,6 @@ urlpatterns = [
     path('', index.IndexView.as_view(), name='admin_home'),
     path('companies/', companies.CompaniesListView.as_view(), name='admin_companies_list'),
     path('companies/<int:pk>', companies.CompanyView.as_view(), name='admin_company'),
-    path('companies/create', companies.CreateCompanyView.as_view(), name='admin_new_company')
+    path('companies/create', companies.CreateCompanyView.as_view(), name='admin_new_company'),
+    path('companies/<int:pk>/delete', companies.DeleteCompanyView.as_view(), name='admin_delete_company')
 ]

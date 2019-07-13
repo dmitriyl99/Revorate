@@ -42,3 +42,14 @@ class CreateCompanyView(CreateView, LoginRequiredMixin):
         messages.success(self.request, "Создана компания %s вместе со стандартными отделами Dispatchers, Update, "
                                        "Safety, Fleet, Trailer" % form.cleaned_data['name'])
         return result
+
+
+class DeleteCompanyView(LoginRequiredMixin, DeleteView):
+    model = Company
+    success_url = reverse_lazy('admin_companies_list')
+    
+    def delete(self, request, *args, **kwargs):
+        company_name = self.get_object().name
+        result = super().delete(request, *args, **kwargs)
+        messages.success(request, "Компания %s и все связанные данные с ней удалены" % company_name)
+        return result

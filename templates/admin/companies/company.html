@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/sweetalert2.min.css' %}">
 {% endblock %}
 {% block content %}
-    <form action="#" method="post" id="categoryDeleteForm" class="d-none">
+    <form action="{% url 'admin_delete_company' pk=company.id %}" method="post" id="companyDeleteForm" class="d-none">
         {% csrf_token %}
     </form>
     <div class="block">
@@ -23,7 +23,7 @@
                     <a href="#" class="dropdown-item"><i class="fa fa-plus mr-5"></i>Добавить отдел</a>
                     <span class="dropdown-divider"></span>
                     <a href="#" class="dropdown-item"><i class="fa fa-fw fa-pencil mr-5"></i>Редактировать</a>
-                    <a href="#" class="dropdown-item" id="companyDeleteButton" data-category-name="{{ company.name }}"><i class="fa fa-trash-o mr-5"></i>Удалить</a>
+                    <a href="#" class="dropdown-item" id="companyDeleteButton" data-company-name="{{ company.name }}"><i class="fa fa-trash-o mr-5"></i>Удалить</a>
                 </div>
             </div>
         </div>
