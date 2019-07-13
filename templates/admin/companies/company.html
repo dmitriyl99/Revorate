@@ -22,7 +22,7 @@
                 <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">
                     <a href="#" class="dropdown-item"><i class="fa fa-plus mr-5"></i>Добавить отдел</a>
                     <span class="dropdown-divider"></span>
-                    <a href="#" class="dropdown-item"><i class="fa fa-fw fa-pencil mr-5"></i>Редактировать</a>
+                    <a href="{% url 'admin_edit_company' pk=company.id %}" class="dropdown-item"><i class="fa fa-fw fa-pencil mr-5"></i>Редактировать</a>
                     <a href="#" class="dropdown-item" id="companyDeleteButton" data-company-name="{{ company.name }}"><i class="fa fa-trash-o mr-5"></i>Удалить</a>
                 </div>
             </div>

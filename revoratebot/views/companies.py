@@ -53,3 +53,15 @@ class DeleteCompanyView(LoginRequiredMixin, DeleteView):
         result = super().delete(request, *args, **kwargs)
         messages.success(request, "Компания %s и все связанные данные с ней удалены" % company_name)
         return result
+
+
+class UpdateCompanyView(LoginRequiredMixin, UpdateView):
+    model = Company
+    fields = ['name']
+    context_object_name = 'company'
+    template_name = 'admin/companies/edit_company.html'
+
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        messages.success(self.request, "Компания %s отредактирована" % self.object.name)
+        return result
