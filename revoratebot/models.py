@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class CommentTemplate(models.Model):
@@ -9,6 +10,9 @@ class CommentTemplate(models.Model):
 
 class Company(models.Model):
     name = models.CharField(max_length=200)
+
+    def get_absolute_url(self):
+        return reverse('admin_company', kwargs={'pk': self.id})
 
 
 class Department(models.Model):
