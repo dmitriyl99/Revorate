@@ -21,6 +21,9 @@ class Department(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     comment_templates = models.ManyToManyField(CommentTemplate)
 
+    def get_absolute_url(self):
+        return reverse('admin_company', kwargs={'pk': self.company_id})
+
     @property
     def users_count(self):
         return self.user_set.count()
