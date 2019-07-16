@@ -52,3 +52,8 @@ class CreateUserView(LoginRequiredMixin, FormView):
 
     def get_success_url(self):
         return reverse('admin_user_created', kwargs={'pk': self.object.id})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['companies'] = companies.get_all_companies()
+        return context
