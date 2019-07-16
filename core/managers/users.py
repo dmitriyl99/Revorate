@@ -1,5 +1,6 @@
 from revoratebot.models import User, Department
 from typing import Optional, List
+import secrets
 
 
 def get_user_by_token(token: str) -> Optional[User]:
@@ -83,3 +84,18 @@ def get_registered_managers() -> List[User]:
     :return: list of managers
     """
     return User.objects.filter(is_manager=True, confirmed=True)
+
+
+def create_user(name: str, phone_number: str, department: Department, is_manager: bool) -> User:
+    """
+    Create a new user with given data
+    :param name: user name
+    :param phone_number: user phone number
+    :param department: user department
+    :param is_manager: is user manager?
+    :return: Creaed user with him token
+    """
+    token = secrets.token_urlsafe(20)
+    user = User(name=name, phone_number=phone_number, department=department, token=token, is_manager=is_manager)
+    user.save()
+    return user
