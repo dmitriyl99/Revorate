@@ -1,5 +1,5 @@
 from revoratebot.models import Company, Department
-from typing import Optional
+from typing import Optional, List
 
 
 def create_default_company_departments(company: Company):
@@ -68,3 +68,11 @@ def get_department_by_id(department_id: int) -> Optional[Department]:
     except Department.DoesNotExist:
         return None
     return department
+
+
+def get_all_companies() -> List[Company]:
+    """
+    Get all companies
+    :return: List of companies
+    """
+    return Company.objects.all()
