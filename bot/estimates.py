@@ -27,7 +27,7 @@ def _to_users(user, chat_id, department_name, error_callback=None):
 
 def _to_estimates(user, chat_id, selected_user):
     estimates_message = strings.get_string('estimates.select_estimate', user.language)
-    estimates_keyboard = keyboards.get_string('estimates.estimates', user.language)
+    estimates_keyboard = keyboards.get_keyboard('estimates.estimates', user.language)
     telegram_bot.send_message(chat_id, estimates_message, reply_markup=estimates_keyboard)
     telegram_bot.register_next_step_handler_by_chat_id(chat_id, estimates_processor, user=user,
                                                        selected_user=selected_user)
@@ -71,7 +71,7 @@ def users_processor(message: Message, **kwargs):
     if not message.text:
         error()
         return
-    if strings.get_string('go_back', user.langauge) in message.text:
+    if strings.get_string('go_back', user.language) in message.text:
         _to_departments_select(user, chat_id)
         return
     selected_user = users.find_user_by_name(message.text)
@@ -95,7 +95,7 @@ def estimates_processor(message: Message, **kwargs):
     if not message.text:
         error()
         return
-    if strings.get_string('go_back', user.langauge) in message.text:
+    if strings.get_string('go_back', user.language) in message.text:
         _to_users(user, chat_id, user.department.name)
         return
     value = strings.estimate_value_from_string(message.text, user.language)
