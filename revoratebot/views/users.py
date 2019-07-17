@@ -31,6 +31,7 @@ class CreateUserView(LoginRequiredMixin, FormView):
                 user_company = companies.create_company(company)
                 user_department = companies.create_department_for_company(department, user_company)
             else:
+                company = int(company)
                 user_company = companies.get_company_by_id(company)
                 if not user_company:
                     messages.error(self.request, "Указанная компания не существует, проверьте свой выбор")
@@ -39,6 +40,7 @@ class CreateUserView(LoginRequiredMixin, FormView):
                     # If user didn't select an exiting department in exiting company, he wants to create a new one
                     user_department = companies.create_department_for_company(department, user_company)
                 else:
+                    department = int(department)
                     user_department = companies.get_department_by_id(department)
                     if not user_department:
                         messages.error(self.request, "Указанный отдел компании %s не существует, проверьте свой выбор"
