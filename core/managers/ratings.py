@@ -14,7 +14,7 @@ def create_rating(from_user: User, to_user: User, value: int, comment: str) -> R
     :return: created rating object
     """
     from_id = from_user.id
-    to_id = to_user
+    to_id = to_user.id
     new_rating = Rating(to_id=to_id, from_id=from_id, value=value, comment=comment)
     new_rating.save()
     return new_rating
