@@ -13,5 +13,5 @@ urlpatterns = [
     path('companies/<int:company_id>/departments/<int:pk>/delete', departments.DeleteDepartmentView.as_view(), name='admin_delete_department'),
     path('users/', users.UsersListView.as_view(), name='admin_users'),
     path('users/new', users.CreateUserView.as_view(), name='admin_new_user'),
-    #path('users/<int:pk>/created', None, name='admin_user_created')
+    path('users/<int:pk>/created', users.UserCreatedView.as_view(), name='admin_user_created')
 ]

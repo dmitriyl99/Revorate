@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
-from django.views.generic import FormView
+from django.views.generic import FormView, DetailView
 from revoratebot.models import User
 from revoratebot.forms import CreateUserForm
 from django.urls import reverse
@@ -60,3 +60,9 @@ class CreateUserView(LoginRequiredMixin, FormView):
         context['companies'] = companies.get_all_companies()
         context['departments'] = companies.get_all_departments()
         return context
+
+
+class UserCreatedView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'admin/users/user_created.html'
+    context_object_name = 'user'
