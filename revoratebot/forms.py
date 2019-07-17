@@ -6,4 +6,4 @@ class CreateUserForm(forms.Form):
     phone_number = forms.CharField(max_length=20)
     company = forms.CharField()
     department = forms.CharField()
-    is_manager = forms.BooleanField(initial=False)
+    is_manager = forms.BooleanField(initial=False, required=False)
