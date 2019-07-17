@@ -13,6 +13,7 @@ let NewUserPage = function() {
       let depatmentsList = $('#departmentsList');
       let companyInput = $('#company');
       let departmentInput = $('#department');
+      let isManagerInput = $('#is_manager');
       let companiesSelections = [];
       let departmentsSelections = [];
       companiesSelect.on('change', function() {
@@ -88,6 +89,19 @@ let NewUserPage = function() {
       newDepartmentInput.on('change', function () {
          departmentInput.val(this.value);
       });
+      isManagerInput.on('change', function() {
+          if (this.checked) {
+              companiesSelect.val('');
+              departmentsSelect.val('');
+              companiesSelect.attr('disabled', 'disabled');
+              departmentsSelect.attr('disabled', 'disabled');
+              addCompanyBtn.addClass('disabled');
+              addDepartmentBtn.addClass('disabled');
+          } else {
+              companiesSelect.removeAttr('disabled');
+              addCompanyBtn.removeClass('disabled');
+          }
+      })
    };
    let cleaveInputs = function() {
       new Cleave('#phone_number', {
