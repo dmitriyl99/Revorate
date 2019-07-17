@@ -57,13 +57,13 @@ def set_user_language(user: User, language):
     user.save()
 
 
-def find_users_by_department_name(department_name: str) -> List[User]:
+def find_users_by_department_name(department_name: str, exclude_user_id: int) -> List[User]:
     """
     Find users by department name
     :param department_name: department name
     :return: list of users
     """
-    return User.objects.filter(department__name=department_name)
+    return User.objects.filter(department__name=department_name).exclude(id=exclude_user_id)
 
 
 def find_user_by_name(user_name: str) -> Optional[User]:
