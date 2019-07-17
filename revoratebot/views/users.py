@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
-from django.views.generic import  FormView
+from django.views.generic import FormView
 from revoratebot.models import User
 from revoratebot.forms import CreateUserForm
 from django.urls import reverse
@@ -56,4 +56,5 @@ class CreateUserView(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['companies'] = companies.get_all_companies()
+        context['departments'] = companies.get_all_departments()
         return context
