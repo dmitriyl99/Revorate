@@ -76,3 +76,11 @@ def get_all_companies() -> List[Company]:
     :return: List of companies
     """
     return Company.objects.all()
+
+
+def get_all_departments() -> List[Department]:
+    """
+    Get all departments
+    :return: List of departments
+    """
+    return Department.objects.all()
