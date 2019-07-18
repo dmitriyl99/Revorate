@@ -1,6 +1,7 @@
-from revoratebot.models import User, Department
+from revoratebot.models import User, Department, Company
 from typing import Optional, List
 import secrets
+from . import companies
 
 
 def get_user_by_token(token: str) -> Optional[User]:
@@ -86,16 +87,45 @@ def get_registered_managers() -> List[User]:
     return User.objects.filter(is_manager=True, confirmed=True)
 
 
-def create_user(name: str, phone_number: str, department: Department, is_manager: bool) -> User:
+def create_user(name: str, phone_number: str, company: str, department: str, is_manager: bool) -> User:
     """
     Create a new user with given data
+    :param company: user company
     :param name: user name
     :param phone_number: user phone number
     :param department: user department
     :param is_manager: is user manager?
-    :return: Creaed user with him token
+    :return: Cretaed user with him token
     """
+    if not is_manager:
+        if not company.isdigit():
+            # If user didn't select an exiting company, he wants to create a new one with given name
+            user_company = companies.create_company(company)
+            user_department = companies.create_department_for_company(department, user_company)
+        else:
+            company = int(company)
+            user_company = companies.get_company_by_id(company)
+            if not department.isdigit():
+                # If user didn't select an exiting department in exiting company, he wants to create a new one
+                user_department = companies.create_department_for_company(department, user_company)
+            else:
+                department = int(department)
+                user_department = companies.get_department_by_id(department)
+    else:
+        user_department = None
     token = secrets.token_urlsafe(20)
-    user = User(name=name, phone_number=phone_number, department=department, token=token, is_manager=is_manager)
-    user.save()
+    user = User(name=name, phone_number=phone_number, department=user_department, token=token)
+    return user
+
+
+def get_by_id(user_id: int) -> Optional[User]:
+    """
+    Get user by id
+    :param user_id: User id
+    :return: Found user or None
+    """
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return None
     return user
