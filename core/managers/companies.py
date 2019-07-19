@@ -10,6 +10,8 @@ def create_default_company_departments(company: Company):
     """
     dispatchers = Department(name='Dispatchers', company=company)
     dispatchers.save()
+    drivers = Department(name='Drivers', code_name=Department.DefaultNames.DRIVERS, company=company)
+    drivers.save()
     updaters = Department(name='Update', company=company)
     updaters.save()
     safety = Department(name='Safety', company=company)
