@@ -26,6 +26,13 @@ class CreateUserView(LoginRequiredMixin, FormView):
         is_manager = form.cleaned_data['is_manager']
         department = form.cleaned_data['department']
         company = form.cleaned_data['company']
+        if not is_manager:
+            if company == '' or company.isspace():
+                form.add_error('company', 'Вы не указали компанию')
+                return super().form_invalid(form)
+            if department == '' or department.isspace():
+                form.add_error('department', 'Вы не указали отделение')
+                return super().form_invalid(form)
         try:
             user = users.create_user(name, phone_number, company, department, is_manager)
         except Company.DoesNotExist:
@@ -59,6 +66,7 @@ class UserCreatedView(LoginRequiredMixin, DetailView):
 class EditUserView(LoginRequiredMixin, FormView):
     form_class = CreateUserForm
     success_url = reverse_lazy('admin_users')
+    template_name = 'admin/users/edit_user.html'
 
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('pk')
@@ -66,6 +74,10 @@ class EditUserView(LoginRequiredMixin, FormView):
         if not user:
             return Http404()
         self.object = user
+        if not user.is_manager:
+            self.company = user.department.company
+        else:
+            self.company = None
         return super().get(request, *args, **kwargs)
 
     def get_initial(self):
@@ -73,9 +85,62 @@ class EditUserView(LoginRequiredMixin, FormView):
         initial = super().get_initial()
         initial['name'] = user.name
         initial['phone_number'] = user.phone_number
-        initial['company'] = user.department.company_id
-        initial['department'] = user.department_id
+        if not user.is_manager:
+            initial['company'] = user.department.company_id or ''
+            initial['department'] = user.department_id or ''
+        else:
+            initial['company'] = ''
+            initial['department'] = ''
         initial['is_manager'] = user.is_manager
+        return initial
+
+    def post(self, request, *args, **kwargs):
+        user = users.get_by_id(kwargs.get('pk'))
+        if not user:
+            return Http404()
+        self.object = user
+        if not user.is_manager:
+            self.company = user.department.company
+        else:
+            self.company = None
+        return super().post(request, args, kwargs)
 
     def form_valid(self, form):
+        name = form.cleaned_data['name']
+        phone_number = form.cleaned_data['phone_number']
+        is_manager = form.cleaned_data['is_manager']
+        department = form.cleaned_data['department']
+        company = form.cleaned_data['company']
+        if not is_manager:
+            if company == '' or company.isspace():
+                form.add_error('company', 'Вы не указали компанию')
+                return super().form_invalid(form)
+            if department == '' or department.isspace():
+                form.add_error('department', 'Вы не указали отделение')
+                return super().form_invalid(form)
 
+        try:
+            user = users.edit_user(self.object.id, name, phone_number, company, department, is_manager)
+        except Company.DoesNotExist:
+            messages.error(self.request, "Указанная компания не существует, проверьте свой выбор")
+            return super().form_invalid(form)
+        except Department.DoesNotExist:
+            messages.error(self.request, "Указан не существующий отдел в выбранной компании, проверьте свой выбор")
+            return super().form_invalid(form)
+        except Exception as e:
+            messages.error(self.request, 'Произошла ошибка: ' + str(e))
+            return super().form_invalid(form)
+        if user.is_manager:
+            success_message = "Менеджер %s изменён" % user.name
+        else:
+            success_message = "Пользователь %s из отдела %s компании %s изменён" % (user.name, user.department.name, user.department.company.name)
+        messages.success(self.request, success_message)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['companies'] = companies.get_all_companies()
+        context['departments'] = companies.get_all_departments()
+        if self.company:
+            context['current_departments'] = self.company.department_set.all()
+        return context

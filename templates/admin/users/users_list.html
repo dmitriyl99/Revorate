@@ -58,7 +58,7 @@
                                         {% endif %}
                                     </td>
                                     <td class="text-center">
-                                        <a href="#" class="btn btn-sm btn-alt-info" data-toggle="tooltip" title="Просмотр">
+                                        <a href="{% url 'admin_edit_user' pk=user.id %}" class="btn btn-sm btn-alt-info" data-toggle="tooltip" title="Просмотр">
                                             <i class="fa fa-user"></i>
                                         </a>
                                     </td>

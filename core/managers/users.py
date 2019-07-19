@@ -97,6 +97,27 @@ def create_user(name: str, phone_number: str, company: str, department: str, is_
     :param is_manager: is user manager?
     :return: Cretaed user with him token
     """
+    user_department = _get_new_edit_user_department(company, department, is_manager)
+    token = secrets.token_urlsafe(20)
+    user = User(name=name, phone_number=phone_number, department=user_department, token=token, is_manager=is_manager)
+    user.save()
+    return user
+
+
+def get_by_id(user_id: int) -> Optional[User]:
+    """
+    Get user by id
+    :param user_id: User id
+    :return: Found user or None
+    """
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return None
+    return user
+
+
+def _get_new_edit_user_department(company: str, department: str, is_manager: bool):
     if not is_manager:
         if not company.isdigit():
             # If user didn't select an exiting company, he wants to create a new one with given name
@@ -113,19 +134,14 @@ def create_user(name: str, phone_number: str, company: str, department: str, is_
                 user_department = companies.get_department_by_id(department)
     else:
         user_department = None
-    token = secrets.token_urlsafe(20)
-    user = User(name=name, phone_number=phone_number, department=user_department, token=token)
-    return user
+    return user_department
 
 
-def get_by_id(user_id: int) -> Optional[User]:
-    """
-    Get user by id
-    :param user_id: User id
-    :return: Found user or None
-    """
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return None
+def edit_user(user_id: int, name: str, phone_number: str, company: str, department: str, is_manager: bool) -> User:
+    user = get_by_id(user_id)
+    user.name = name
+    user.phone_number = phone_number
+    user.department = _get_new_edit_user_department(company, department, is_manager)
+    user.is_manager = is_manager
+    user.save()
     return user
