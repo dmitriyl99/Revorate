@@ -14,7 +14,7 @@ def _to_departments_select(user, chat_id):
 
 
 def _to_users(user, chat_id, department_name, error_callback=None):
-    department_users = users.find_users_by_department_name(department_name, user.id)
+    department_users = users.find_users_by_department_name(department_name, user.id, user.department.company_id)
     if not department_users:
         if error_callback:
             error_callback()
