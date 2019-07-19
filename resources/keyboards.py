@@ -31,8 +31,13 @@ def get_keyboard(key, language='ru'):
                                get_string('estimates.value_4', language),
                                get_string('estimates.value_3', language),
                                get_string('estimates.value_2', language),
-                               get_string('estimates.value_1', language))
+                               get_string('estimates.value_1', language),
+                               get_string('go_back', language))
         return estimates_keyboard
+    elif key == 'go_back':
+        go_back_keyboard = _create_keyboard(row_width=1)
+        go_back_keyboard.add(get_string('go_back', language))
+        return go_back_keyboard
     else:
         return _default_value
 
