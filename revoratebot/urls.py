@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, companies, departments, users
+from .views import index, companies, departments, users, ratings
 
 urlpatterns = [
     path('', index.IndexView.as_view(), name='admin_home'),
@@ -14,5 +14,6 @@ urlpatterns = [
     path('users/', users.UsersListView.as_view(), name='admin_users'),
     path('users/new', users.CreateUserView.as_view(), name='admin_new_user'),
     path('users/<int:pk>/created', users.UserCreatedView.as_view(), name='admin_user_created'),
-    path('users/<int:pk>', users.EditUserView.as_view(), name='admin_edit_user')
+    path('users/<int:pk>', users.EditUserView.as_view(), name='admin_edit_user'),
+    path('ratings/', ratings.RatingsListView.as_view(), name='admin_ratings')
 ]
