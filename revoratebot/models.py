@@ -58,6 +58,8 @@ class Rating(models.Model):
     value = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     comment = models.CharField(max_length=500)
+    company_id = models.IntegerField(blank=True, null=True)
+    department_id = models.IntegerField(blank=True, null=True)
 
     class Values:
         VERY_HIGH = 5
