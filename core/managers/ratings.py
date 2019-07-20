@@ -15,6 +15,8 @@ def create_rating(from_user: User, to_user: User, value: int, comment: str) -> R
     """
     from_id = from_user.id
     to_id = to_user.id
-    new_rating = Rating(to_id=to_id, from_id=from_id, value=value, comment=comment)
+    company_id = to_user.department.company_id
+    department_id = to_user.department_id
+    new_rating = Rating(to_id=to_id, from_id=from_id, value=value, comment=comment, company_id=company_id, department_id=department_id)
     new_rating.save()
     return new_rating
