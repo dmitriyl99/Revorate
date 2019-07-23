@@ -1,7 +1,7 @@
 from telebot.types import Message
 from telebot.apihelper import ApiException
 from core.managers import users
-from revoratebot.models import User, Department, SosSignal
+from revoratebot.models import User, Department, SosSignal, Rating
 from resources import strings, keyboards
 from typing import Optional
 from . import telegram_bot
@@ -52,6 +52,17 @@ class Access:
         if user.department.code_name != Department.DefaultNames.DRIVERS:
             return False
         return Access._private(message)
+    
+    @staticmethod
+    def ratings(message: Message):
+        if not message.text:
+            return False
+        user = Access._auth(message)
+        if not user:
+            return False
+        if not user.is_manager:
+            return False
+        return Access._private(message) and strings.get_string('menu.ratings', user.language) in message.text
 
 
 class Navigation:
@@ -82,7 +93,19 @@ class Helpers:
                 time.sleep(0.1)
             sos_message = strings.string_from_sos_signal(sos_signal, sender, manager.language)
             try:
-                telegram_bot.send_message(manager.id, sos_message, parse_mode='HTML')
-                telegram_bot.send_location(manager.id, sos_signal.location_lat, sos_signal.location_lon)
+                telegram_bot.send_message(manager.telegram_user_id, sos_message, parse_mode='HTML')
+                telegram_bot.send_location(manager.telegram_user_id, sos_signal.location_lat, sos_signal.location_lon)
+            except ApiException:
+                pass
+
+    @staticmethod
+    def send_bad_rating_to_managers(rating: Rating, sender: User, reciever: User):
+        managers = users.get_registered_managers()
+        for manager in managers:
+            if len(managers) > 10:
+                time.sleep(0.1)
+            rating_message = strings.string_from_rating(rating, sender, reciever, manager.language)
+            try:
+                telegram_bot.send_message(manager.telegram_user_id, rating_message, parse_mode='HTML')
             except ApiException:
                 pass

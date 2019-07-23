@@ -1,5 +1,5 @@
 from . import telegram_bot
-from .utils import Access, Navigation
+from .utils import Access, Navigation, Helpers
 from core.managers import users, ratings
 from resources import strings, keyboards
 from telebot.types import Message
@@ -136,7 +136,9 @@ def comments_processor(message: Message, **kwargs):
         _to_estimates(user, chat_id, selected_user)
         return
     comment = message.text
-    ratings.create_rating(user, selected_user, estimate_value, comment)
+    new_rating = ratings.create_rating(user, selected_user, estimate_value, comment)
+    if estimate_value < 4:
+        Helpers.send_bad_rating_to_managers(new_rating, user, selected_user)
     success_message = strings.get_string('estimates.success', user.language).format(name=selected_user.name,
                                                                                     department=selected_user.department.name)
     Navigation.to_main_menu(user, chat_id, message_text=success_message)
