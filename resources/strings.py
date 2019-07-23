@@ -2,6 +2,7 @@ import os
 import json
 from revoratebot.models import Rating, SosSignal
 
+
 _basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Load strings from json
@@ -26,6 +27,10 @@ def get_string(key, language='ru'):
         raise Exception('Invalid language')
 
 
+def string_from_estimate_value(value: int, langauge):
+    return get_string('estimates.value_{}'.format(value), langauge)
+
+
 def estimate_value_from_string(string, language):
     if get_string('estimates.value_1', language) in string:
         return Rating.Values.VERY_LOW
@@ -46,7 +51,22 @@ def string_from_sos_signal(sos_signal: SosSignal, sender, language):
     sos_message_content = ""
     sos_message_content += get_string('sos.new_signal', language)
     sos_message_content += '\n'
-    sos_message_content += get_string('sos.sender', language).format(name=sender.name)
+    sos_message_content += get_string('sos.sender', language).format(name=sender.name, phone=sender.phone_number)
     sos_message_content += '\n'
     sos_message_content += get_string('sos.sent_at', language).format(date=datetime)
     return sos_message_content
+
+
+def string_from_rating(rating: Rating, sender, reciever, language):
+    datetime = rating.created_at.strftime('%d.%m.%Y %H:%M')
+    rating_message_content = ""
+    rating_message_content += string_from_estimate_value(rating.value, language)
+    rating_message_content += "\n"
+    rating_message_content += get_string('ratings.from_user', language).format(name=sender.name,
+                                                                               phone=sender.phone_number,
+                                                                               department=sender.department.name)
+    rating_message_content += get_string('ratings.to_user', language).format(name=reciever.name,
+                                                                             phone=reciever.phone_number,
+                                                                             department=reciever.department.name)
+    rating_message_content += get_string('ratings.created_at', language).format(datetime)
+    return rating_message_content
