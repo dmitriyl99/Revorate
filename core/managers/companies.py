@@ -86,3 +86,11 @@ def get_all_departments() -> List[Department]:
     :return: List of departments
     """
     return Department.objects.all()
+
+
+def get_company_by_name(name: str) -> Optional[Company]:
+    try:
+        company = Company.objects.filter(name=name)[0]
+    except IndexError:
+        return None
+    return company
