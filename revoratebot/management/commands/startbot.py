@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = "Start the telegram bot without server"
 
     def handle(self, *args, **options):
-        from bot import registration, settings, estimates, sos
+        from bot import registration, settings, estimates, sos, managers
         telegram_bot.remove_webhook()
         telebot.logger.setLevel(logging.DEBUG)
         self.stdout.write(self.style.SUCCESS('Starting Telegram bot in polling mode...'))
