@@ -15,5 +15,6 @@ urlpatterns = [
     path('users/new', users.CreateUserView.as_view(), name='admin_new_user'),
     path('users/<int:pk>/created', users.UserCreatedView.as_view(), name='admin_user_created'),
     path('users/<int:pk>', users.EditUserView.as_view(), name='admin_edit_user'),
-    path('ratings/', ratings.RatingsListView.as_view(), name='admin_ratings')
+    path('ratings/', ratings.RatingsListView.as_view(), name='admin_ratings'),
+    path('ratings/<int:company_id>/', ratings.BotCompanyRatingView.as_view(), name='bot_company_ratings')
 ]
