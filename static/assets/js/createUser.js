@@ -103,18 +103,10 @@ let NewUserPage = function() {
           }
       })
    };
-   let cleaveInputs = function() {
-      new Cleave('#phone_number', {
-         phone: true,
-         phoneRegionCode: 'US',
-         prefix: "+1"
-      });
-   };
 
    return {
       init() {
          onTheFlyFunctions();
-         cleaveInputs();
       }
    }
 }();
