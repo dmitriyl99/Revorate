@@ -57,7 +57,7 @@ class Rating(models.Model):
     to_id = models.IntegerField()
     value = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
-    comment = models.CharField(max_length=500)
+    comment = models.CharField(max_length=500, blank=True, null=True)
     company_id = models.IntegerField(blank=True, null=True)
     department_id = models.IntegerField(blank=True, null=True)
 
