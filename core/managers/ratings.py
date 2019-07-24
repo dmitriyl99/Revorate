@@ -30,7 +30,7 @@ def create_rating(from_user: User, to_user: User, value: int, comment: str) -> R
 def _get_rating_screenshot_by_cloud_browser(company_id: int):
     key = settings.CLOUD_BROWSER_KEY
     host = settings.WEBHOOK_HOST
-    url = 'https://api.cloudbrowser.co/v1/image?source=https://{host}/ratings/{company_id}/&key={key}'
+    url = 'https://api.cloudbrowser.co/v1/image?source=http://{host}/ratings/{company_id}/&key={key}&output_file_type=2&client_width=1366&client_height=768&capture_full_page=1'
     url = url.format(host=host, company_id=company_id, key=key)
     response = requests.get(url)
     json = response.json()
@@ -40,9 +40,9 @@ def _get_rating_screenshot_by_cloud_browser(company_id: int):
 
 
 def get_img_ratings_for_company(company: Company):
-    file_path = os.path.join(setting.BASE_DIR, 'static', 'media', 'ratings_{}.jpg'.format(company.id))
+    file_path = os.path.join(settings.BASE_DIR, 'static', 'media', 'ratings_{}.png'.format(company.id))
     image = _get_rating_screenshot_by_cloud_browser(company.id)
-    with open(file_path) as image_file:
+    with open(file_path, 'wb') as image_file:
         image_file.write(image)
     return file_path
 
