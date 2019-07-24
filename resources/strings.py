@@ -69,4 +69,7 @@ def string_from_rating(rating: Rating, sender, reciever, language):
                                                                              phone=reciever.phone_number,
                                                                              department=reciever.department.name)
     rating_message_content += get_string('ratings.created_at', language).format(datetime)
+    if rating.comment:
+        rating_message_content += '\n'
+        rating_message_content += get_string('ratings.comment', language).format(rating.comment)
     return rating_message_content
