@@ -33,6 +33,10 @@ class BotCompanyRatingView(TemplateView):
         view_model_set = [CompanyRatingViewModel(r) for r in company_ratings]
         context['ratings'] = view_model_set
         context['company'] = companies.get_company_by_id(self.company_id)
+        company_users_count = companies.get_company_users_counts(self.company_id)
+        context['users_count'] = company_users_count[0]
+        context['confirmed_users_count'] = company_users_count[1]
+        context['not_confirmed_users_count'] = company_users_count[2]
         return context
     
     

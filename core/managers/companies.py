@@ -94,3 +94,17 @@ def get_company_by_name(name: str) -> Optional[Company]:
     except IndexError:
         return None
     return company
+
+
+def get_company_users_counts(company_id: int):
+    company = get_company_by_id(company_id)
+    departments = company.department_set.all()
+    users_count = 0
+    confirmed_users_count = 0
+    non_confirmed_users_count = 0
+    for department in departments:
+        department_users = department.user_set.all()
+        users_count += department.user_set.count()
+        confirmed_users_count += department.user_set.filter(confirmed=True).count()
+        non_confirmed_users_count += department.user_set.filter(confirmed=False).count()
+    return users_count, confirmed_users_count, non_confirmed_users_count
