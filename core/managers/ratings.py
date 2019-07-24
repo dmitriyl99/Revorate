@@ -9,7 +9,7 @@ import base64
 import os
 
 
-def create_rating(from_user: User, to_user: User, value: int, comment: str) -> Rating:
+def create_rating(from_user: User, to_user: User, value: int) -> Rating:
     """
     Create a new rating from user to user
     :param from_user: from User
@@ -22,9 +22,22 @@ def create_rating(from_user: User, to_user: User, value: int, comment: str) -> R
     to_id = to_user.id
     company_id = to_user.department.company_id
     department_id = to_user.department_id
-    new_rating = Rating(to_id=to_id, from_id=from_id, value=value, comment=comment, company_id=company_id, department_id=department_id)
+    new_rating = Rating(to_id=to_id, from_id=from_id, value=value, company_id=company_id, department_id=department_id)
     new_rating.save()
     return new_rating
+
+
+def set_comment_for_rating(rating_id: int, comment: str) -> Rating:
+    """
+    Set comment string for rating
+    :param rating_id: Rating Id
+    :param comment: Comment string
+    :return: Rating
+    """
+    rating = get_rating_by_id(rating_id)
+    rating.comment = comment
+    rating.save()
+    return rating
 
 
 def _get_rating_screenshot_by_cloud_browser(company_id: int):
@@ -54,3 +67,16 @@ def get_ratings_by_compnay(company_id: int):
     :return: List of dictionaries with 'to_id' - user's id, 'avg_value' - avg user's estimate, 'count' - estimates' total count, ordered by avg value
     """
     return Rating.objects.values('to_id').filter(company_id=company_id).annotate(avg_value=Avg('value')).annotate(count=Count('value')).order_by('-avg_value')
+
+
+def get_rating_by_id(rating_id: int) -> Rating:
+    """
+    Get rating by id
+    :param rating_id: Rating id
+    :return: Found rating
+    """
+    try:
+        rating = Rating.objects.get(pk=rating_id)
+    except Rating.DoesNotExists:
+        return None
+    return rating
