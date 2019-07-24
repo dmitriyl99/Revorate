@@ -146,3 +146,11 @@ def edit_user(user_id: int, name: str, phone_number: str, company: str, departme
     user.is_manager = is_manager
     user.save()
     return user
+
+
+def get_confirmed_users() -> List[User]:
+    """
+    Get confirmed non-managers
+    :return: List of users
+    """
+    return User.objects.filter(confirmed=True, is_manager=False)
