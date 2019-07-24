@@ -1,6 +1,7 @@
 from . import telegram_bot
 from .utils import Access, Navigation, Helpers
 from core.managers import users, ratings
+from core import scheduler
 from resources import strings, keyboards
 from telebot.types import Message
 
@@ -110,16 +111,19 @@ def estimates_processor(message: Message, **kwargs):
         comments_keyboard = keyboards.keyboard_from_comments_templates(comment_templates, user.language)
     else:
         comments_keyboard = keyboards.get_keyboard('go_back', user.language)
-    telegram_bot.send_message(chat_id, comment_message, reply_markup=comments_keyboard)
+    new_rating = ratings.create_rating(user, selected_user, value)
+    scheduler.add_timer_for_comment(chat_id, new_rating.id, timer_for_comment)
+    telegram_bot.send_message(chat_id, comment_message, reply_markup=comments_keyboard, parse_mode='HTML')
     telegram_bot.register_next_step_handler_by_chat_id(chat_id, comments_processor, user=user,
                                                        selected_user=selected_user,
-                                                       estimate=value)
+                                                       estimate=value, rating_id=new_rating.id)
 
 
 def comments_processor(message: Message, **kwargs):
     user = kwargs.get('user')
     selected_user = kwargs.get('selected_user')
     estimate_value = kwargs.get('estimate')
+    rating_id = kwargs.get('rating_id')
     chat_id = message.chat.id
 
     def error():
@@ -136,9 +140,28 @@ def comments_processor(message: Message, **kwargs):
         _to_estimates(user, chat_id, selected_user)
         return
     comment = message.text
-    new_rating = ratings.create_rating(user, selected_user, estimate_value, comment)
-    if estimate_value < 4:
-        Helpers.send_bad_rating_to_managers(new_rating, user, selected_user)
+    rating = ratings.set_comment_for_rating(rating_id, comment)
+    scheduler.remove_timer_for_comment(rating.id)
     success_message = strings.get_string('estimates.success', user.language).format(name=selected_user.name,
                                                                                     department=selected_user.department.name)
     Navigation.to_main_menu(user, chat_id, message_text=success_message)
+    if estimate_value < 4:
+        Helpers.send_bad_rating_to_managers(rating, user, selected_user)
+
+
+def timer_for_comment(chat_id: int, rating_id):
+    scheduler.remove_timer_for_comment(rating_id)
+    rating = ratings.get_rating_by_id(rating_id)
+    user = users.get_by_id(rating.from_id)
+    selected_user = users.get_by_id(rating.to_id)
+    if not rating:
+        return
+    if rating.comment:
+        return
+    success_message = strings.get_string('estimates.success', user.language).format(name=selected_user.name,
+                                                                                    department=selected_user.department.name)
+    telegram_bot.clear_step_handler_by_chat_id(chat_id)
+    Navigation.to_main_menu(user, chat_id, message_text=success_message)
+    if rating.value < 4:
+        Helpers.send_bad_rating_to_managers(rating, user, selected_user)
+    
