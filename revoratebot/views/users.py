@@ -78,7 +78,7 @@ class EditUserView(LoginRequiredMixin, FormView):
         user_id = kwargs.get('pk')
         user = users.get_by_id(user_id)
         if not user:
-            return Http404()
+            raise Http404()
         self.object = user
         if not user.is_manager:
             self.company = user.department.company
@@ -103,7 +103,7 @@ class EditUserView(LoginRequiredMixin, FormView):
     def post(self, request, *args, **kwargs):
         user = users.get_by_id(kwargs.get('pk'))
         if not user:
-            return Http404()
+            raise Http404()
         self.object = user
         if not user.is_manager:
             self.company = user.department.company
