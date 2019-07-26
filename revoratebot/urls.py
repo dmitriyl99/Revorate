@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import index, companies, departments, users, ratings, sos
+from .views import index, companies, departments, users, ratings, sos, bot
+from Revorate.settings import WEBHOOK_URL_PATH
 
 urlpatterns = [
     path('', index.IndexView.as_view(), name='admin_home'),
@@ -17,5 +18,7 @@ urlpatterns = [
     path('users/<int:pk>', users.EditUserView.as_view(), name='admin_edit_user'),
     path('ratings/', ratings.RatingsListView.as_view(), name='admin_ratings'),
     path('ratings/<int:company_id>/', ratings.BotCompanyRatingView.as_view(), name='bot_company_ratings'),
-    path('sos/', sos.SosSignalsListView.as_view(), name='admin_sos')
+    path('sos/', sos.SosSignalsListView.as_view(), name='admin_sos'),
+    path('init/', bot.BotInitializeView.as_view()),
+    path(WEBHOOK_URL_PATH, bot.BotUpdatesRecieverView.as_view())
 ]
