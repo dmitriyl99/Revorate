@@ -9,6 +9,8 @@ class BotInitializeView(View):
         from bot import telegram_bot
         telegram_bot.remove_webhook()
         telegram_bot.set_webhook(WEBHOOK_URL_BASE + '/' + WEBHOOK_URL_PATH)
+        from core import scheduler
+        scheduler.init()
         return 'Bot initialized successfully!'
 
 
