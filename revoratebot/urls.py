@@ -17,7 +17,7 @@ urlpatterns = [
     path('users/<int:pk>/created', users.UserCreatedView.as_view(), name='admin_user_created'),
     path('users/<int:pk>', users.EditUserView.as_view(), name='admin_edit_user'),
     path('ratings/', ratings.RatingsListView.as_view(), name='admin_ratings'),
-    path('ratings/<int:pk>', ratings.EditRatingView.as_view(), name='admin_edit_rating'),
+    path('ratings/<int:pk>/edit/', ratings.EditRatingView.as_view(), name='admin_edit_rating'),
     path('ratings/<int:company_id>/', ratings.BotCompanyRatingView.as_view(), name='bot_company_ratings'),
     path('sos/', sos.SosSignalsListView.as_view(), name='admin_sos'),
     path('init/', bot.BotInitializeView.as_view()),
