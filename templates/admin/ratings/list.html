@@ -63,13 +63,14 @@
                                 <th class="text-center">Оценка</th>
                                 <th class="text-center">Комментарий</th>
                                 <th class="text-center">Когда</th>
+                                <th class="text-center">Действия</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for rating in ratings %}
                                 <tr class="rating-tabler-row" data-company-id="{{ rating.to_user.department.company_id }}" data-department-id="{{ rating.to_user.department_id }}">
-                                    <td class="text-center">{{ rating.from_user.name }}</td>
-                                    <td class="text-center">{{ rating.to_user.name }}</td>
+                                    <td class="text-center">{% if rating.from_user %}{{rating.from_user.name}}{% else %}Unknown{% endif %}</td>
+                                    <td class="text-center">{% if rating.to_user %}{{rating.to_user.name}}{% else %}Unknown{% endif %}</td>
                                     <td class="text-center text-primary">
                                         {% if rating.value == 1 %}
                                             <i class="fa fa-star"></i>
@@ -98,6 +99,9 @@
                                     </td>
                                     <td class="text-center">
                                         {{ rating.created_at }}
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{% url 'admin_edit_rating' pk=rating.id %}" class="btn btn-alt-info btn-sm"><i class="si si-pencil"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
