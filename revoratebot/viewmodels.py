@@ -5,6 +5,7 @@ from typing import List, Dict
 
 class RatingViewModel:
     def __init__(self, rating: Rating):
+        self.id = rating.id
         self.from_user = users.get_by_id(rating.from_id)
         self.to_user = users.get_by_id(rating.to_id)
         self.value = rating.value
