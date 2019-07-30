@@ -1,9 +1,9 @@
 {
-    "registration.not_allowed": "Извините, но я не могу распознать вас.",
+    "registration.not_allowed": "Извините, но я не могу распознать вас.\n\nSorry, but I can't recognize you",
     "registration.user_exists": "Здравствуйте, <b>{name}</b>, вы уже зарегистрированы! Выберите пункт меню",
-    "registration.welcome_manager": "Здравствуйте, менеджер <b>{name}</b>! Ваша регистрация подтверждена ✅",
-    "registration.welcome_common": "Здравствуйте, <b>{name}</b>! Ваша регистрация подтверждена ✅",
-    "registration.languages": "Выберите язык бота для начала работы",
+    "registration.welcome_manager": "Здравствуйте, менеджер <b>{name}</b>! Ваша регистрация подтверждена ✅\n\nHello, manager <b>{name}</b>! Your registration has been confirmed! ✅",
+    "registration.welcome_common": "Здравствуйте, <b>{name}</b>! Ваша регистрация подтверждена ✅\n\nHello, <b>{name}</b>! Your registration has been confirmed! ✅",
+    "registration.languages": "Выберите язык бота для начала работы\n\nPlease, select a language to start working",
     "registration.welcome": "Язык выбран, добро пожаловать в главное меню!",
     "languages.ru": "Русский \uD83C\uDDF7\uD83C\uDDFA",
     "languages.en": "English \uD83C\uDDFA\uD83C\uDDF8",
