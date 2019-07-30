@@ -101,7 +101,7 @@
                                         {{ rating.created_at }}
                                     </td>
                                     <td class="text-center">
-                                        <a href="{% url 'admin_edit_rating' pk=rating.id %}" class="btn btn-alt-info btn-sm"><i class="si si-pencil"></i></a>
+                                        <a href="{% url 'admin_edit_rating' pk=rating.id %}" class="btn btn-alt-info btn-sm" data-toggle="tooltip" title="Редактировать"><i class="si si-pencil"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
