@@ -1,5 +1,5 @@
 from django.views import View
-from django.http import HttpRequest, HttpResponseBadRequest
+from django.http import HttpRequest, HttpResponseBadRequest, HttpResponse
 from telebot.types import Update
 from Revorate.settings import WEBHOOK_URL_PATH, WEBHOOK_URL_BASE
 
@@ -11,7 +11,7 @@ class BotInitializeView(View):
         telegram_bot.set_webhook(WEBHOOK_URL_BASE + '/' + WEBHOOK_URL_PATH)
         from core import scheduler
         scheduler.init()
-        return 'Bot initialized successfully!'
+        return HttpResponse('Initialized Successfully!')
 
 
 class BotUpdatesRecieverView(View):
@@ -21,7 +21,5 @@ class BotUpdatesRecieverView(View):
         json_string = request.body.decode('utf-8')
         update = Update.de_json(json_string)
         from bot import telegram_bot
-        try:
-            telegram_bot.process_new_updates([update])
-        finally:
-            return ''
+        telegram_bot.process_new_updates([update])
+        return HttpResponse('')
