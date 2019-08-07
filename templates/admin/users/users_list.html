@@ -1,6 +1,9 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% block title %}Сотрудники{% endblock %}
+{% block prestyles %}
+    <link rel="stylesheet" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}">
+{% endblock prestyles %}
 {% block styles %}
     <link rel="stylesheet" href="{% static 'assets/css/select2.min.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/select2-bootstrap.min.css' %}">
@@ -127,6 +130,8 @@
 {% endblock %}
 {% block scripts %}
     <script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
     <script src="{% static 'assets/js/users.js' %}"></script>
     <script>
         $(function() {

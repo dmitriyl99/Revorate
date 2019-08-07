@@ -87,9 +87,25 @@ let UsersPage = function() {
         })
     };
 
+    let DataTable = function() {
+        jQuery('.js-dataTable-simple').dataTable({
+            ordering: true,
+            pageLength: 10,
+            lengthMenu: [[5, 8, 15, 20], [5, 8, 15, 20]],
+            autoWidth: false,
+            searching: false,
+            oLanguage: {
+                sLengthMenu: ""
+            },
+            dom: "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-6'i><'col-sm-6'p>>"
+        });
+    };
+
     return {
         init() {
             Filter();
+            DataTable();
         }
     }
 }();
