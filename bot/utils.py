@@ -49,6 +49,8 @@ class Access:
         user = Access._auth(message)
         if not user:
             return False
+        if user.is_manager:
+            return False
         if user.department.code_name != Department.DefaultNames.DRIVERS:
             return False
         return Access._private(message)
