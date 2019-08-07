@@ -80,3 +80,12 @@ def get_rating_by_id(rating_id: int) -> Rating:
     except Rating.DoesNotExists:
         return None
     return rating
+
+
+def delete_users_ratings(user_id: int):
+    """
+    Delete all user's ratings
+    :param user_id: User Id
+    :return: void
+    """
+    ratings = Rating.objects.filter(to_id=user_id).delete()
