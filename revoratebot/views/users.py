@@ -1,11 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import ListView
+from django.views.generic.edit import DeleteView
 from django.views.generic import FormView, DetailView
 from revoratebot.models import User, Department, Company
 from revoratebot.forms import CreateUserForm
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
-from core.managers import companies, users
+from core.managers import companies, users, ratings
 from django.http import Http404
 
 
@@ -147,6 +148,21 @@ class EditUserView(LoginRequiredMixin, FormView):
         context = super().get_context_data(**kwargs)
         context['companies'] = companies.get_all_companies()
         context['departments'] = companies.get_all_departments()
+        context['user_id'] = self.object.id
         if self.company:
             context['current_departments'] = self.company.department_set.all()
         return context
+
+
+class DeleteUserView(LoginRequiredMixin, DeleteView):
+    model = User
+    success_url = reverse_lazy('admin_users')
+
+    def delete(self, request, *args, **kwargs):
+        user = self.get_object()
+        user_id = user.id
+        user_name = user.name
+        result = super().delete(request, *args, **kwargs)
+        ratings.delete_users_ratings(user_id)
+        messages.success(request, 'Пользователь %s и всего его рейтинги удалены!' % user_name)
+        return result
