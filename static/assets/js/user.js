@@ -103,10 +103,40 @@ let NewUserPage = function() {
           }
       })
    };
+   let confirmDeleteModal = function() {
+      let deleteButton = $('#userDeleteButton');
+      if (!deleteButton) {
+         return
+      }
+      swal.setDefaults({
+         buttonsStyling: false,
+         confirmButtonClass: 'btn btn-lg btn-alt-success m-5',
+         cancelButtonClass: 'btn btn-lg btn-alt-danger m-5',
+         inputClass: 'form-control'
+     });
+     deleteButton.on('click', function () {
+      let userName = deleteButton.attr('data-user-name');
+      swal({
+          title: 'Вы уверены?',
+          text: `При удалении пользователя ${userName} удаляться все его данные, рейтинги, которые поставили ему, но НЕ удалятся рейтинги, которые ставил он. Вы точно уверены в этом?`,
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d26a5c',
+          confirmButtonText: 'Я уверен!',
+          cancelButtonText: 'Не уверен',
+          html: false,
+      }).then(function(result) {
+          $('#userDeleteForm').submit();
+      }, function (dismiss) {
+      })
+  })
+
+   };
 
    return {
       init() {
          onTheFlyFunctions();
+         confirmDeleteModal();
       }
    }
 }();
