@@ -69,8 +69,8 @@
                         <tbody>
                             {% for rating in ratings %}
                                 <tr class="rating-tabler-row" data-company-id="{{ rating.to_user.department.company_id }}" data-department-id="{{ rating.to_user.department_id }}">
-                                    <td class="text-center">{% if rating.from_user %}{{rating.from_user.name}}{% else %}Unknown{% endif %}</td>
-                                    <td class="text-center">{% if rating.to_user %}{{rating.to_user.name}}{% else %}Unknown{% endif %}</td>
+                                    <td class="text-center">{% if rating.from_user %}{{rating.from_user.name}} ({{ rating.from_user.department.name }}, {{ rating.from_user.department.company.name }}) {% else %}Unknown{% endif %}</td>
+                                    <td class="text-center">{% if rating.to_user %}{{rating.to_user.name}} ({{ rating.to_user.department.name }}, {{ rating.to_user.department.company.name }}){% else %}Unknown{% endif %}</td>
                                     <td class="text-center text-primary">
                                         {% if rating.value == 1 %}
                                             <i class="fa fa-star"></i>
@@ -95,7 +95,11 @@
                                         {% endif %}
                                     </td>
                                     <td class="text-center">
-                                        {{ rating.comment }}
+                                        {% if rating.comment %}
+                                            {{ rating.comment }}
+                                        {% else %}
+                                            Unknown
+                                        {% endif %}
                                     </td>
                                     <td class="text-center">
                                         {{ rating.created_at }}
