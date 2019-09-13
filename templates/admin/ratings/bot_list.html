@@ -11,7 +11,7 @@
 <body>
     <div class="d-none" id="ratings">
         {% for rating in ratings %}
-            <div data-user-name="{{ rating.user.name }}" data-avg-value="{{ rating.avg_value }}" data-count="{{ rating.count }}"></div>
+            <div data-user-name="{{ rating.user.name }} ({{ rating.user.department.name }})" data-avg-value="{{ rating.avg_value }}" data-count="{{ rating.count }}"></div>
         {% endfor %}
     </div>
 
