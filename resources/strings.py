@@ -64,10 +64,12 @@ def string_from_rating(rating: Rating, sender, reciever, language):
     rating_message_content += "\n"
     rating_message_content += get_string('ratings.from_user', language).format(name=sender.name,
                                                                                phone=sender.phone_number,
-                                                                               department=sender.department.name)
+                                                                               department=sender.department.nameб
+                                                                               company=sender.department.company.name)
     rating_message_content += get_string('ratings.to_user', language).format(name=reciever.name,
                                                                              phone=reciever.phone_number,
-                                                                             department=reciever.department.name)
+                                                                             department=reciever.department.name,
+                                                                             company=reciever.department.company.name)
     rating_message_content += get_string('ratings.created_at', language).format(datetime)
     if rating.comment:
         rating_message_content += '\n'
